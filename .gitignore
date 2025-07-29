@@ -1,0 +1,6 @@
+__pycache__/
+.continue/
+.venv/
+.vscode/
+dataset/
+MNIST/
