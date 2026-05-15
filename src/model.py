@@ -136,12 +136,11 @@ class MyModel():
         self.save_trashold = save_trashold
         
         self.best_loss = None
-        if self.plot:
-            self.train_loss_hist = []
-            self.train_acc_hist = []
-            self.val_loss_hist = []
-            self.val_acc_hist = []
-            self.lr_hist = []
+        self.train_loss_hist = []
+        self.train_acc_hist = []
+        self.val_loss_hist = []
+        self.val_acc_hist = []
+        self.lr_hist = []
 
     def split_dataset(self, dataset, split_list):
         train, val, test = random_split(dataset, split_list)
@@ -155,9 +154,8 @@ class MyModel():
         self.model.train()
         acc, mean_loss = self.cycle(loader, 'train')
 
-        if self.plot:
-            self.train_loss_hist.append(mean_loss)
-            self.train_acc_hist.append(acc)
+        self.train_loss_hist.append(mean_loss)
+        self.train_acc_hist.append(acc)
         
         return acc, mean_loss
         
@@ -168,9 +166,8 @@ class MyModel():
         with torch.no_grad():
             acc, mean_loss = self.cycle(loader, 'val')
 
-        if self.plot:
-            self.val_loss_hist.append(mean_loss)
-            self.val_acc_hist.append(acc)
+        self.val_loss_hist.append(mean_loss)
+        self.val_acc_hist.append(acc)
 
         return acc, mean_loss
     
@@ -311,6 +308,7 @@ class MyModel():
         else:
             name_format = f'{name}_ckpt_epoch_{epoch}.pt'
 
+        os.makedirs(save_path, exist_ok=True)
         model_path = os.path.join(save_path, name_format)
         
         torch.save(checkpoint, model_path)
